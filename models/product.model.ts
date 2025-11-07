@@ -88,7 +88,12 @@ const VariantSchema = new Schema<IVariant>({
     name: { type: String, required: true },
     value: { type: String, required: true },
   }],
-  images: [{ type: String }],
+  images: [{ type: {
+    url: { type: String },
+    preview: { type: String },
+    public_id: { type: String },
+  },
+  default: {},}],
 }, { _id: false }); // Don't create a separate _id for each variant object in the array
 const attributeSchema = new Schema<IVariantAttribute>({
   name: {
