@@ -35,6 +35,7 @@ import {
   Settings,
   Save,
   Sparkles,
+  X,
 } from "lucide-react";
 
 import { useForm, Controller } from "react-hook-form";
@@ -988,9 +989,14 @@ console.log(form.formState.errors, "errors")
         className="w-full h-24 border-2 border-dashed rounded-xl flex items-center justify-center cursor-pointer hover:border-orange-400 hover:bg-orange-50/50"
       >
         {img.preview ? (
-          <img src={img.preview} className="h-full object-contain" />
+          
+           
+ <img src={img.preview} className="h-full object-contain" />
+         
+         
         ) : (
-          <div className="flex flex-col items-center">
+          <div className="flex  flex-col items-center">
+            
             <ImageIcon className="w-5 h-5 text-gray-400" />
             <p className="text-xs text-gray-500">Click to upload</p>
           </div>

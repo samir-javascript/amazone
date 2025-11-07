@@ -53,7 +53,7 @@ export interface IProduct extends Document {
   reviewCount: number;
   reviews: IReview[];
   variants: IVariant[];
-  attributes: Map<string, string>; // General attributes like 'Material', 'Dimensions'
+  attributes: IVariantAttribute[]; // General attributes like 'Material', 'Dimensions'
   tags: string[];
   isFeatured: boolean;
   stock: number; // Stock for simple products without variants
@@ -90,7 +90,16 @@ const VariantSchema = new Schema<IVariant>({
   }],
   images: [{ type: String }],
 }, { _id: false }); // Don't create a separate _id for each variant object in the array
-
+const attributeSchema = new Schema<IVariantAttribute>({
+  name: {
+    type: String,
+    required: true
+  },
+  value: {
+     type: String,
+    required: true
+  }
+}, { _id: false });
 /**
  * Main Product Schema.
  */
@@ -102,13 +111,29 @@ const ProductSchema = new Schema<IProduct>({
   // Assuming a Category model exists for better organization
   category: { type: String, required: true},
   basePrice: { type: Number, required: true, min: 0 },
-  thumbnail: { type: String, required: true },
-  images: [{ type: String }],
+ thumbnail: {
+  type: {
+    url: { type: String },
+    preview: { type: String },
+    public_id: { type: String },
+  },
+  default: {}, // ensures the field always exists as an object
+},
+
+  images: [ {
+  type: {
+    url: { type: String },
+    preview: { type: String },
+    public_id: { type: String },
+  },
+  default: {}, // ensures the field always exists as an object
+},
+],
   rating: { type: Number, required: true, default: 0, min: 0, max: 5 },
   reviewCount: { type: Number, required: true, default: 0, min: 0 },
   reviews: [ReviewSchema],
   variants: [VariantSchema],
-  attributes: { type: Map, of: String },
+  attributes: [attributeSchema],
   tags: [{ type: String }],
   isFeatured: { type: Boolean, default: false },
   // Default stock for products that don't have variants.
